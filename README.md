@@ -1,5 +1,5 @@
-# boilerplate-tampermonkey
-> boilerplate-tampermonkey-description
+# <%= project_name %>
+> <%= description %>
 
 ## installation
 <img width="800" src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggl0ds8tvej30xp0u0n1d.jpg" />
@@ -9,5 +9,5 @@
 2. 打开 `tampermokey` 的管理面板(Dashboard)
 3. 实用工具(tools)
 4. Install from URL:
-5. 用这个： https://raw.githubusercontent.com/afeiship/boilerplate-tampermonkey/master/dist/install.js
+5. 用这个： https://raw.githubusercontent.com/afeiship/<%= project_name %>/master/dist/install.js
 

@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         boilerplate-tampermonkey
-// @namespace    https://github.com/afeiship/boilerplate-tampermonkey
+// @name         <%= project_name %>
+// @namespace    https://github.com/afeiship/<%= project_name %>
 // @version      __VERSION__
-// @description  boilerplate-tampermonkey-description
+// @description  <%= description %>
 // @author       afeiship
 // @match        *://*/*
 // @require  https://cdn.jsdelivr.net/npm/@feizheng/gm-sdk@1.0.23
-// @require  https://cdn.jsdelivr.net/npm/@feizheng/boilerplate-tampermonkey@__VERSION__
+// @require  https://cdn.jsdelivr.net/npm/@feizheng/<%= project_name %>@__VERSION__
 // @grant GM_addStyle
 // @grant GM_deleteValue
 // @grant GM_listValues

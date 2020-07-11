@@ -1,7 +1,7 @@
 {
-  "name": "@boilerplate-scope/boilerplate-tampermonkey",
+  "name": "@<%= scope %>/<%= project_name %>",
   "version": "1.0.0",
-  "description": "boilerplate-tampermonkey-descritpion",
+  "description": "<%= description %>",
   "scripts": {
     "build": "rollup -c"
   },
