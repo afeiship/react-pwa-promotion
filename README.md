@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggl0vbsvh5j312g0i2wh2.jpg" width="400">
-</p>
-
 # boilerplate-tampermonkey
 > boilerplate-tampermonkey-description
 
