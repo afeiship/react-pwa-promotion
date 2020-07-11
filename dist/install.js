@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         alo7-develop-assistant
-// @namespace    https://github.com/afeiship/alo7-develop-assistant
+// @name         boilerplate-tampermonkey
+// @namespace    https://github.com/afeiship/boilerplate-tampermonkey
 // @version      1.0.0
-// @description  Develop assistant for alo7.
-// @author       aric.zheng
+// @description  boilerplate-tampermonkey-description
+// @author       afeiship
 // @match        *://*/*
 // @require  https://cdn.jsdelivr.net/npm/@feizheng/gm-sdk@1.0.23
-// @require  https://cdn.jsdelivr.net/npm/@feizheng/alo7-develop-assistant@1.0.0
+// @require  https://cdn.jsdelivr.net/npm/@feizheng/boilerplate-tampermonkey@1.0.0
 // @grant GM_addStyle
 // @grant GM_deleteValue
 // @grant GM_listValues
