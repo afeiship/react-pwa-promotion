@@ -1,12 +1,14 @@
 
-import resolve from '@rollup/plugin-node-resolve';
-import filesize from 'rollup-plugin-filesize';
+import '@feizheng/next-rollup-banner';
 import commonjs from '@rollup/plugin-commonjs';
+import multi from '@rollup/plugin-multi-entry';
+import resolve from '@rollup/plugin-node-resolve';
 import banner from 'rollup-plugin-banner';
 import copy from 'rollup-plugin-copy';
-import pkg from './package.json';
+import filesize from 'rollup-plugin-filesize';
 import { terser } from "rollup-plugin-terser";
-import '@feizheng/next-rollup-banner';
+import pkg from './package.json';
+
 
 const installCfg = {
   targets: [{
@@ -17,15 +19,16 @@ const installCfg = {
 };
 
 export default {
-  input: 'src/main.js',
+  input: 'src/plugins/*.js',
   output: {
     strict: false,
     file: 'dist/index.js',
-    format: 'umd',
+    format: 'umd'
   },
   plugins: [
     resolve(),
     commonjs(),
+    multi(),
     terser({ output: { comments: false } }),
     banner(nx.rollupBanner()),
     copy(installCfg),

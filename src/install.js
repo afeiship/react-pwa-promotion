@@ -5,7 +5,7 @@
 // @description  <%= description %>
 // @author       afeiship
 // @match        *://*/*
-// @require  https://cdn.jsdelivr.net/npm/@feizheng/gm-sdk@1.0.23
+// @require  https://cdn.jsdelivr.net/npm/@feizheng/gm-sdk@1.1.5
 // @require  https://cdn.jsdelivr.net/npm/@feizheng/<%= project_name %>@__VERSION__
 // @grant GM_addStyle
 // @grant GM_deleteValue

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "<%= description %>",
   "scripts": {
+    "dev":"rollup -w --config=rollup.config.js",
     "build": "rollup -c"
   },
   "main": "dist/index.js",
@@ -11,6 +12,7 @@
     "@feizheng/next-nice-comments": "^1.1.0",
     "@feizheng/next-rollup-banner": "^1.0.1",
     "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-multi-entry": "^4.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "rollup": "^2.20.0",
     "rollup-plugin-banner": "^0.2.1",
