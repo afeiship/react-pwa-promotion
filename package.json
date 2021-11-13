@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "<%= description %>",
   "scripts": {
-    "dev":"rollup -w --config=rollup.config.js",
+    "dev": "rollup -w --config=rollup.config.js",
     "build": "rollup -c"
   },
   "main": "dist/index.js",
@@ -22,5 +22,11 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "boilerplate": "boilerplate-tampermokey",
+  "homepage": "https://js.work",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afeiship/boilerplate-tampermokey"
   }
 }
