@@ -29,7 +29,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "@jswork/sw-runtime": "^1.0.5",
+    "@jswork/sw-runtime": "^1.0.6",
     "classnames": "^2.5.1"
   },
   "keywords": [
