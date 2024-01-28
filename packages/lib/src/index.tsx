@@ -62,6 +62,7 @@ export default class ReactPwaPromotion extends React.Component<ReactPwaPromotion
   updateServiceWorker = () => {
     this.swInstance.applyUpdate().then(() => {
       this.setNeedRefresh(false);
+      window.location.reload();
     });
   };
 
