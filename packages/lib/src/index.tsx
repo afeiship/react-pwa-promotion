@@ -19,7 +19,7 @@ const locals = {
 type ReactPwaPromotionProps = {
   className?: string;
   lang?: string;
-  disabled?: string;
+  disabled?: boolean;
   interval?: number;
   mute?: boolean;
 } & HTMLAttributes<any>;
