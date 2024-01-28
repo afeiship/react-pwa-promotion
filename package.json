@@ -1,32 +1,19 @@
 {
-  "name": "@<%= scope %>/<%= project_name %>",
-  "version": "1.0.0",
-  "description": "<%= description %>",
-  "scripts": {
-    "dev": "rollup -w --config=rollup.config.js",
-    "build": "rollup -c"
-  },
-  "main": "dist/index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@feizheng/next-nice-comments": "^1.1.0",
-    "@feizheng/next-rollup-banner": "^1.0.1",
-    "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-multi-entry": "^4.0.0",
-    "@rollup/plugin-node-resolve": "^8.1.0",
-    "rollup": "^2.20.0",
-    "rollup-plugin-banner": "^0.2.1",
-    "rollup-plugin-copy": "^3.3.0",
-    "rollup-plugin-filesize": "^9.0.2",
-    "rollup-plugin-terser": "^6.1.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "boilerplate": "boilerplate-tampermokey",
+  "name": "react-pwa-promotion",
   "homepage": "https://js.work",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/afeiship/boilerplate-tampermokey"
+  "version": "1.0.0",
+  "description": "A vite pwa promotion component for workbox.",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {},
+  "scripts": {
+    "dev": "cd packages/example && yarn run dev",
+    "predocs": "rm -rf docs",
+    "docs": "cd packages/example && yarn run build",
+    "postdocs": "cp -R packages/example/dist docs",
+    "ln:build": "cd packages/lib && yarn run build",
+    "ln:publish": "cd packages/lib && yarn run release"
   }
 }

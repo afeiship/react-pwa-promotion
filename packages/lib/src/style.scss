@@ -1,0 +1,48 @@
+.react-pwa-promotion {
+  position: fixed;
+  min-width: 280px;
+  right: 0;
+  top: 0;
+  margin: 16px;
+  padding: 12px;
+  border: 1px solid #8885;
+  border-radius: 4px;
+  z-index: 10000;
+  text-align: left;
+  box-shadow: 3px 4px 5px 0 #eee;
+  background-color: white;
+  font-size: 14px;
+  transition: all 0.3s;
+
+  &:hover {
+    box-shadow: 3px 4px 5px 0 #ddd;
+  }
+
+  &__header {
+    margin-bottom: 10px;
+  }
+
+  &__footer {
+    text-align: right;
+
+    button {
+      transition: all 0.2s;
+      border: 1px solid #8885;
+      outline: none;
+      margin-right: 5px;
+      border-radius: 2px;
+      padding: 5px 14px;
+
+      &:hover {
+        cursor: pointer;
+        border-color: #8888;
+        background: #8885;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.1rem rgb(49 132 253 / 50%);
+      }
+    }
+  }
+}
