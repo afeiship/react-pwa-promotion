@@ -53,7 +53,7 @@ export default class ReactPwaPromotion extends React.Component<ReactPwaPromotion
         if (mute) return;
         console.log('SW Event: onAutoUpdate');
       },
-      onUpdateReady: function () {
+      onUpdateReady: () => {
         this.setNeedRefresh(true);
       },
     });
