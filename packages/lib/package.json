@@ -29,15 +29,8 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "@jswork/sw-runtime": "^1.0.7",
+    "@jswork/sw-runtime": "^1.0.8",
     "classnames": "^2.5.1"
   },
-  "keywords": [
-    "component",
-    "pwa",
-    "react",
-    "runtime",
-    "sw",
-    "workbox"
-  ]
+  "keywords": ["component", "pwa", "react", "runtime", "sw", "workbox"]
 }
