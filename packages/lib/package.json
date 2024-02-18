@@ -1,7 +1,7 @@
 {
   "name": "@jswork/react-pwa-promotion",
   "description": "A vite pwa promotion component for workbox.",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -29,7 +29,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "@jswork/sw-runtime": "^1.0.9",
+    "@jswork/sw-runtime": "^1.0.10",
     "classnames": "^2.5.1"
   },
   "keywords": [
