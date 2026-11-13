@@ -12,15 +12,10 @@ const positions: PwaUpdatePosition[] = [
 export default function App() {
   const [simulate, setSimulate] = useState(false);
   const [position, setPosition] = useState<PwaUpdatePosition>('top-right');
-  const {
-    needRefresh: [needRefresh, setNeedRefresh],
-    updateServiceWorker
-  } = useRegisterSW();
+  // 只负责注册 SW；新版本由 PwaUpdatePrompt 的 pollInterval 自行轮询发现
+  const { updateServiceWorker } = useRegisterSW();
 
-  const dismiss = () => {
-    setNeedRefresh(false);
-    setSimulate(false);
-  };
+  const dismiss = () => setSimulate(false);
 
   const update = async () => {
     // dev 下模拟 SW 激活延迟，便于观察按钮 loading 态
@@ -34,6 +29,7 @@ export default function App() {
     <main className="app">
       <h1>react-pwa-promotion</h1>
       <p>Vite PWA（registerType: prompt）+ 版本升级提示组件</p>
+      <p>每 60s 轮询一次 SW 更新，发现新版本自动弹出提示（页面隐藏时暂停）</p>
 
       {import.meta.env.DEV && (
         <div className="toolbar">
@@ -53,7 +49,8 @@ export default function App() {
       )}
 
       <PwaUpdatePrompt
-        open={needRefresh || simulate}
+        open={simulate}
+        pollInterval={60_000}
         onUpdate={update}
         onDismiss={dismiss}
         position={position}
