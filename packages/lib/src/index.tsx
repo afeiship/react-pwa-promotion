@@ -1,89 +1,78 @@
-import React, { HTMLAttributes } from 'react';
-import cx from 'classnames';
-import SwRuntime from '@jswork/sw-runtime';
+import type { CSSProperties } from 'react';
 
-const CLASS_NAME = 'react-pwa-promotion';
-const locals = {
-  'en-US': {
-    'update-available': '🚀 New content available, click on reload button to update.',
-    'reload': 'Reload',
-    'close': 'Close',
-  },
-  'zh-CN': {
-    'update-available': '有新内容可用，点击重新加载按钮更新。',
-    'reload': '⚡️ 重新加载',
-    'close': '🧨 关闭',
-  },
+export type PwaUpdatePosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+
+export type PwaUpdateTexts = {
+  title: string;
+  description: string;
+  update: string;
+  dismiss: string;
 };
 
-type ReactPwaPromotionProps = {
+export interface PwaUpdatePromptProps {
+  /** 是否有新版本待更新，由宿主的 Service Worker 状态提供 */
+  open: boolean;
+  /** 点击「立即更新」：宿主负责让新 SW 接管并刷新页面 */
+  onUpdate: () => void;
+  /** 点击「稍后」 */
+  onDismiss: () => void;
+  /** 四个角，或传样式对象自定义坐标（如 { left: 40, top: 40 }） */
+  position?: PwaUpdatePosition | CSSProperties;
   className?: string;
-  lang?: string;
-  disabled?: boolean;
-  interval?: number;
-  mute?: boolean;
-} & HTMLAttributes<any>;
+  /** 覆盖默认中文文案 */
+  texts?: Partial<PwaUpdateTexts>;
+}
 
-export default class ReactPwaPromotion extends React.Component<ReactPwaPromotionProps> {
-  static defaultProps = {
-    lang: 'en-US',
-    disabled: false,
-    interval: 20 * 1000,
-    mute: false,
-  };
+const CLASS_NAME = 'react-pwa-promotion';
 
-  state = {
-    needRefresh: false,
-  };
+const defaultTexts: PwaUpdateTexts = {
+  title: '发现新版本',
+  description: '新版本已就绪，刷新即可使用。',
+  update: '立即更新',
+  dismiss: '稍后'
+};
 
-  private swInstance: any;
+// 样式独立在 src/style.css（构建时用 Lightning CSS 编译到 dist/style.css），
+// 使用方需引入一次 CSS，组件本身不往 DOM 注入 <style>。
+export default function PwaUpdatePrompt({
+  open,
+  onUpdate,
+  onDismiss,
+  position = 'bottom-right',
+  className,
+  texts
+}: PwaUpdatePromptProps) {
+  if (!open) return null;
 
-  t = (inKey) => {
-    const { lang } = this.props;
-    return locals[lang!][inKey] || inKey;
-  };
+  const t = { ...defaultTexts, ...texts };
+  const preset = typeof position === 'string';
+  const classes = [CLASS_NAME, preset ? `${CLASS_NAME}--${position}` : '', className]
+    .filter(Boolean)
+    .join(' ');
 
-  componentDidMount() {
-    const { disabled, interval, mute } = this.props;
-    this.swInstance = SwRuntime.install({
-      autoUpdate: true,
-      disabled,
-      autoUpdateInterval: interval,
-      onAutoUpdate: function () {
-        if (mute) return;
-        console.log('SW Event: onAutoUpdate');
-      },
-      onUpdateReady: () => {
-        this.setNeedRefresh(true);
-      },
-    });
-  }
-
-  updateServiceWorker = () => {
-    this.swInstance.applyUpdate().then(() => {
-      this.setNeedRefresh(false);
-      window.location.reload();
-    });
-  };
-
-  setNeedRefresh = (needRefresh: boolean) => {
-    this.setState({ needRefresh });
-  };
-
-  render() {
-    const { className, lang, interval, mute, ...props } = this.props;
-    const { needRefresh } = this.state;
-
-    if (!needRefresh) return null;
-
-    return (
-      <div className={cx(CLASS_NAME, className)} {...props}>
-        <header className={`${CLASS_NAME}__header`}>{this.t('update-available')}</header>
-        <footer className={`${CLASS_NAME}__footer`}>
-          <button onClick={() => this.updateServiceWorker()}>{this.t('reload')}</button>
-          <button onClick={() => this.setNeedRefresh(false)}>{this.t('close')}</button>
-        </footer>
+  return (
+    <div
+      className={classes}
+      style={typeof position === 'string' ? undefined : position}
+      role="dialog"
+      aria-live="polite"
+      aria-label={t.title}>
+      <div className={`${CLASS_NAME}__title`}>{t.title}</div>
+      <div className={`${CLASS_NAME}__desc`}>{t.description}</div>
+      <div className={`${CLASS_NAME}__actions`}>
+        <button
+          type="button"
+          className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--ghost`}
+          onClick={onDismiss}>
+          {t.dismiss}
+        </button>
+        <button
+          type="button"
+          className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--primary`}
+          onClick={onUpdate}>
+          {t.update}
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
 }

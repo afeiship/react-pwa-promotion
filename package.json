@@ -2,18 +2,19 @@
   "name": "react-pwa-promotion",
   "homepage": "https://js.work",
   "version": "1.0.0",
-  "description": "A vite pwa promotion component for workbox.",
+  "description": "A tiny React update prompt for Vite PWA (vite-plugin-pwa).",
   "private": true,
+  "packageManager": "pnpm@11.24.0",
   "workspaces": [
     "packages/*"
   ],
   "dependencies": {},
   "scripts": {
-    "dev": "cd packages/example && yarn run dev",
+    "dev": "pnpm --filter example dev",
     "predocs": "rm -rf docs",
-    "docs": "cd packages/example && yarn run build",
+    "docs": "pnpm --filter example build",
     "postdocs": "cp -R packages/example/dist docs",
-    "ln:build": "cd packages/lib && yarn run build",
-    "ln:publish": "cd packages/lib && yarn run release"
+    "ln:build": "pnpm --filter @jswork/react-pwa-promotion build",
+    "ln:publish": "pnpm --filter @jswork/react-pwa-promotion release"
   }
 }

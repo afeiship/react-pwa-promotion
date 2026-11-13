@@ -1,0 +1,118 @@
+/* 源码用原生 CSS Nesting 组织，构建时由 Lightning CSS 按 targets 展开成扁平选择器。
+   注意：这里不能用 Sass 风格的 &__xxx 后缀拼接（Lightning CSS 不支持）。 */
+
+.react-pwa-promotion {
+  position: fixed;
+  z-index: 9999;
+  box-sizing: border-box;
+  width: 240px;
+  padding: 8px 12px;
+  border-radius: 0;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font: 12px/1.35 system-ui, sans-serif;
+  animation: react-pwa-promotion-in 0.18s ease-out both;
+
+  /* 位置变体：& 后接完整类选择器，展开后根类与变体类同时命中 */
+  &.react-pwa-promotion--bottom-right {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  &.react-pwa-promotion--bottom-left {
+    left: 16px;
+    bottom: 16px;
+  }
+
+  &.react-pwa-promotion--top-right {
+    right: 16px;
+    top: 16px;
+    animation-name: react-pwa-promotion-in-top;
+  }
+
+  &.react-pwa-promotion--top-left {
+    left: 16px;
+    top: 16px;
+    animation-name: react-pwa-promotion-in-top;
+  }
+
+  & .react-pwa-promotion__title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  & .react-pwa-promotion__desc {
+    color: #6b7280;
+    margin-bottom: 6px;
+  }
+
+  & .react-pwa-promotion__actions {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+
+    & .react-pwa-promotion__btn {
+      padding: 3px 8px;
+      border-radius: 0;
+      font: inherit;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s,
+        transform 0.15s;
+
+      &:active {
+        transform: translateY(1px);
+      }
+
+      &:focus-visible {
+        outline: 2px solid #6366f1;
+        outline-offset: 2px;
+      }
+
+      &.react-pwa-promotion__btn--ghost {
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        color: #374151;
+
+        &:hover {
+          background: #f3f4f6;
+          border-color: #d1d5db;
+          color: #111827;
+        }
+      }
+
+      &.react-pwa-promotion__btn--primary {
+        border: 1px solid #111827;
+        background: #111827;
+        color: #fff;
+
+        &:hover {
+          background: #374151;
+          border-color: #374151;
+          box-shadow: 0 3px 10px rgba(17, 24, 39, 0.25);
+        }
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+
+    & .react-pwa-promotion__btn {
+      transition: none;
+    }
+  }
+}
+
+@keyframes react-pwa-promotion-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes react-pwa-promotion-in-top {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}

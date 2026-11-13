@@ -1,2 +1,2 @@
 /// <reference types="vite/client" />
-/// <reference types="@jswork/react-pwa-promotion/global.d.ts" />
+/// <reference types="vite-plugin-pwa/client" />
