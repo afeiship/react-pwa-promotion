@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { PwaUpdateLang, PwaUpdatePromptProps } from './types';
 import { CLASS_NAME } from './constants';
@@ -14,7 +15,14 @@ export default function PwaUpdatePrompt({
   texts,
   lang
 }: PwaUpdatePromptProps) {
-  if (!open) return null;
+  // Hide instantly on update click: the host's reload may lag behind SW activation.
+  const [updateClicked, setUpdateClicked] = useState(false);
+
+  useEffect(() => {
+    if (!open) setUpdateClicked(false);
+  }, [open]);
+
+  if (!open || updateClicked) return null;
 
   const resolvedLang: PwaUpdateLang = resolveLang(lang);
   const t = mergeTexts(resolvedLang, texts);
@@ -45,7 +53,10 @@ export default function PwaUpdatePrompt({
         <button
           type="button"
           className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--primary`}
-          onClick={onUpdate}>
+          onClick={() => {
+            setUpdateClicked(true);
+            onUpdate();
+          }}>
           {t.update}
         </button>
       </div>

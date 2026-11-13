@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 
 export type PwaUpdatePosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
@@ -12,7 +13,7 @@ export type PwaUpdateTexts = {
 export interface PwaUpdatePromptProps {
   /** 是否有新版本待更新，由宿主的 Service Worker 状态提供 */
   open: boolean;
-  /** 点击「立即更新」：宿主负责让新 SW 接管并刷新页面 */
+  /** 点击「立即更新」：组件立即隐藏自身，宿主负责让新 SW 接管并刷新页面 */
   onUpdate: () => void;
   /** 点击「稍后」 */
   onDismiss: () => void;
@@ -53,7 +54,14 @@ export default function PwaUpdatePrompt({
   texts,
   lang
 }: PwaUpdatePromptProps) {
-  if (!open) return null;
+  // Hide instantly on update click: the host's reload may lag behind SW activation.
+  const [updateClicked, setUpdateClicked] = useState(false);
+
+  useEffect(() => {
+    if (!open) setUpdateClicked(false);
+  }, [open]);
+
+  if (!open || updateClicked) return null;
 
   const resolvedLang =
     lang ?? (typeof navigator !== 'undefined' && navigator.language.startsWith('zh') ? 'zh-CN' : 'en-US');
@@ -83,7 +91,10 @@ export default function PwaUpdatePrompt({
         <button
           type="button"
           className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--primary`}
-          onClick={onUpdate}>
+          onClick={() => {
+            setUpdateClicked(true);
+            onUpdate();
+          }}>
           {t.update}
         </button>
       </div>

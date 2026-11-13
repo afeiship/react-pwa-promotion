@@ -14,7 +14,7 @@ export type PwaUpdateTexts = {
 export interface PwaUpdatePromptProps {
   /** 是否有新版本待更新，由宿主的 Service Worker 状态提供 */
   open: boolean;
-  /** 点击「立即更新」：宿主负责让新 SW 接管并刷新页面 */
+  /** 点击「立即更新」：组件立即隐藏自身，宿主负责让新 SW 接管并刷新页面 */
   onUpdate: () => void;
   /** 点击「稍后」 */
   onDismiss: () => void;
