@@ -1,7 +1,7 @@
 {
   "name": "@jswork/react-pwa-promotion",
   "description": "A tiny React update prompt for Vite PWA (vite-plugin-pwa).",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
