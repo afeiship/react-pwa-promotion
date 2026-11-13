@@ -19,17 +19,27 @@ export interface PwaUpdatePromptProps {
   /** 四个角，或传样式对象自定义坐标（如 { left: 40, top: 40 }） */
   position?: PwaUpdatePosition | CSSProperties;
   className?: string;
-  /** 覆盖默认中文文案 */
+  /** 覆盖默认文案 */
   texts?: Partial<PwaUpdateTexts>;
+  /** 提示框语言：决定默认文案与 aria lang；未传时跟随 <html> 的 lang */
+  lang?: 'zh-CN' | 'en-US';
 }
 
 const CLASS_NAME = 'react-pwa-promotion';
 
-const defaultTexts: PwaUpdateTexts = {
-  title: '发现新版本',
-  description: '新版本已就绪，刷新即可使用。',
-  update: '立即更新',
-  dismiss: '稍后'
+const defaultTextsByLang: Record<'zh-CN' | 'en-US', PwaUpdateTexts> = {
+  'zh-CN': {
+    title: '发现新版本',
+    description: '新版本已就绪，刷新即可使用。',
+    update: '立即更新',
+    dismiss: '稍后'
+  },
+  'en-US': {
+    title: 'Update available',
+    description: 'A new version is ready. Refresh to use it.',
+    update: 'Update now',
+    dismiss: 'Later'
+  }
 };
 
 // 样式独立在 src/style.css（构建时用 Lightning CSS 编译到 dist/style.css），
@@ -40,11 +50,14 @@ export default function PwaUpdatePrompt({
   onDismiss,
   position = 'top-right',
   className,
-  texts
+  texts,
+  lang
 }: PwaUpdatePromptProps) {
   if (!open) return null;
 
-  const t = { ...defaultTexts, ...texts };
+  const resolvedLang =
+    lang ?? (typeof navigator !== 'undefined' && navigator.language.startsWith('zh') ? 'zh-CN' : 'en-US');
+  const t = { ...defaultTextsByLang[resolvedLang], ...texts };
   const preset = typeof position === 'string';
   const classes = [CLASS_NAME, preset ? `${CLASS_NAME}--${position}` : '', className]
     .filter(Boolean)
@@ -54,6 +67,7 @@ export default function PwaUpdatePrompt({
     <div
       className={classes}
       style={typeof position === 'string' ? undefined : position}
+      lang={resolvedLang}
       role="dialog"
       aria-live="polite"
       aria-label={t.title}>
