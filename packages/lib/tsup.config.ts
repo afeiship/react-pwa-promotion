@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 import lightningCssPlugin from '@jswork/tsup-plugin-lightningcss';
 
 export default defineConfig({
-  entry: ['src/index.tsx'],
+  entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   dts: true,
   clean: true,

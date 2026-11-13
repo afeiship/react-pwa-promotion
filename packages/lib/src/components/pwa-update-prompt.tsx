@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
-import type { PwaUpdateLang, PwaUpdatePromptProps } from './types';
-import { CLASS_NAME } from './constants';
+import type { PwaUpdateLang, PwaUpdatePromptProps } from '../types';
+import { CLASS_NAME } from '../constants';
 import PwaProgress from './pwa-progress';
-import useSwUpdatePolling from './use-sw-update-polling';
-import { joinClasses, mergeTexts, resolveLang } from './utils';
+import useSwUpdatePolling from '../hooks/use-sw-update-polling';
+import { joinClasses, mergeTexts, resolveLang } from '../utils';
 
 // 内置默认更新行为：通知新 SW SKIP_WAITING，接管成功（controllerchange）后刷新页面。
 // 要求 SW 响应该消息（vite-plugin-pwa generateSW 默认支持）。

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CLASS_NAME } from './constants';
+import { CLASS_NAME } from '../constants';
 
 // Fake progress bar pinned to the top edge of the prompt. On activate it jumps
 // to 20%, then creeps asymptotically towards 90% and never reaches 100% — the
