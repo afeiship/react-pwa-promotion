@@ -38,7 +38,7 @@ export default function PwaUpdatePrompt({
   open,
   onUpdate,
   onDismiss,
-  position = 'bottom-right',
+  position = 'top-right',
   className,
   texts
 }: PwaUpdatePromptProps) {

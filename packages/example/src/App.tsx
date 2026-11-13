@@ -11,7 +11,7 @@ const positions: PwaUpdatePosition[] = [
 
 export default function App() {
   const [simulate, setSimulate] = useState(false);
-  const [position, setPosition] = useState<PwaUpdatePosition>('bottom-right');
+  const [position, setPosition] = useState<PwaUpdatePosition>('top-right');
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker
