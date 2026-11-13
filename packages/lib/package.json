@@ -7,6 +7,10 @@
   "types": "dist/index.d.ts",
   "homepage": "https://js.work",
   "license": "MIT",
+  "files": [
+    "dist",
+    "llms.txt"
+  ],
   "scripts": {
     "build": "tsup",
     "release": "release-it --ci --npm.skipChecks"

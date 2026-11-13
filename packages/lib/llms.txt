@@ -1,0 +1,38 @@
+# @jswork/react-pwa-promotion
+
+> 极简 React PWA 新版本更新提示组件：纯 UI、不绑定构建工具，由宿主（如 vite-plugin-pwa）提供 Service Worker 状态，共同完成"发现新版本 → 立即更新 / 稍后"的升级提示流程。
+
+组件不往 DOM 注入 `<style>`，样式全部由独立 CSS 文件控制，使用方需在入口引入一次 `@jswork/react-pwa-promotion/dist/style.css`。主题定制通过覆盖 `.react-pwa-promotion` 上的 `--rpwa-*` CSS 自定义属性实现（背景、文字、圆角、阴影、按钮配色等）。支持中英文默认文案（`lang` prop，未传时跟随 `navigator.language`），并内置无障碍属性（`role="dialog"`、`aria-live="polite"`）与 `prefers-reduced-motion` 动画降级。
+
+唯一导出：默认组件 `PwaUpdatePrompt`，Props（定义于 `src/types.ts`）：
+
+- `open: boolean` — 是否有新版本待更新，由宿主 SW 状态提供
+- `onUpdate: () => void` — 点击「立即更新」，宿主负责让新 SW 接管并刷新
+- `onDismiss: () => void` — 点击「稍后」
+- `position?: PwaUpdatePosition | CSSProperties` — 四角预设（`'top-right'`（默认）| `'bottom-right'` | `'bottom-left'` | `'top-left'`）或传样式对象自定义坐标
+- `className?: string` — 追加根类名
+- `texts?: Partial<PwaUpdateTexts>` — 覆盖标题 / 描述 / 两个按钮文案
+- `lang?: PwaUpdateLang` — `'zh-CN' | 'en-US'`，决定默认文案与 aria lang
+
+## Documentation
+
+- [README](README.md): 安装、与 vite-plugin-pwa 配合的完整用法示例、Props 表、特性说明
+
+## Source
+
+- [构建入口 index.tsx](src/index.tsx): 自包含单文件实现，tsup 的打包入口（`src/index.ts` 是等价的模块化重组出入口）
+- [组件实现](src/pwa-update-prompt.tsx): 模块化版本的 PwaUpdatePrompt 组件
+- [类型定义](src/types.ts): PwaUpdatePromptProps 及所有导出类型
+- [常量](src/constants.ts): 根类名 `react-pwa-promotion` 与中英文默认文案
+- [工具函数](src/utils.ts): resolveLang / mergeTexts / joinClasses
+- [样式](src/style.css): 原生 CSS Nesting 编写，含全部 `--rpwa-*` 主题变量；构建时由 Lightning CSS 编译为扁平选择器输出到 `dist/style.css`
+
+## Configuration
+
+- [package.json](package.json): 包元信息，双格式产物入口（cjs / esm / d.ts）
+- [tsup 构建配置](tsup.config.ts): cjs + esm + d.ts 产物，`@jswork/tsup-plugin-lightningcss` 在同一次构建中产出 `dist/style.css`
+
+## Optional
+
+- [示例应用](../example/README.md): Vite + vite-plugin-pwa（`registerType: 'prompt'`）完整示例，演示真实 SW 更新链路
+- [仓库根 README](../../README.md): monorepo 结构与 pnpm 命令说明
