@@ -50,7 +50,7 @@ export default function App() {
 
       <PwaUpdatePrompt
         open={simulate}
-        pollInterval={60_000}
+        pollInterval={6_000}
         onUpdate={update}
         onDismiss={dismiss}
         position={position}
