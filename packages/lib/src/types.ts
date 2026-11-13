@@ -14,7 +14,7 @@ export type PwaUpdateTexts = {
 export interface PwaUpdatePromptProps {
   /** 是否有新版本待更新，由宿主的 Service Worker 状态提供 */
   open: boolean;
-  /** 点击「立即更新」：组件立即隐藏自身，宿主负责让新 SW 接管并刷新页面 */
+  /** 点击「立即更新」：按钮进入 loading 并禁用，宿主负责让新 SW 接管并刷新页面 */
   onUpdate: () => void;
   /** 点击「稍后」 */
   onDismiss: () => void;
@@ -25,4 +25,6 @@ export interface PwaUpdatePromptProps {
   texts?: Partial<PwaUpdateTexts>;
   /** 提示框语言：决定默认文案与 aria lang；未传时跟随 <html> 的 lang */
   lang?: PwaUpdateLang;
+  /** 新版本号，传入后显示在标题旁（如 "v1.2.0"，原样展示） */
+  version?: string;
 }

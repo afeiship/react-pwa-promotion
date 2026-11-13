@@ -13,6 +13,7 @@
 - `className?: string` — 追加根类名
 - `texts?: Partial<PwaUpdateTexts>` — 覆盖标题 / 描述 / 两个按钮文案
 - `lang?: PwaUpdateLang` — `'zh-CN' | 'en-US'`，决定默认文案与 aria lang
+- `version?: string` — 新版本号，传入后以 badge 显示在标题旁（原样展示）；点击「立即更新」后按钮进入 loading 并禁用，顶部出现假进度条
 
 ## Documentation
 
@@ -22,6 +23,7 @@
 
 - [构建入口 index.tsx](src/index.tsx): 自包含单文件实现，tsup 的打包入口（`src/index.ts` 是等价的模块化重组出入口）
 - [组件实现](src/pwa-update-prompt.tsx): 模块化版本的 PwaUpdatePrompt 组件
+- [假进度条](src/pwa-progress.tsx): 内部组件 PwaProgress，更新时顶部进度条跳到 20% 后渐近 90%、永不到 100%，页面刷新时随弹框消失
 - [类型定义](src/types.ts): PwaUpdatePromptProps 及所有导出类型
 - [常量](src/constants.ts): 根类名 `react-pwa-promotion` 与中英文默认文案
 - [工具函数](src/utils.ts): resolveLang / mergeTexts / joinClasses

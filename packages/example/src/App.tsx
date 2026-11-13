@@ -22,7 +22,9 @@ export default function App() {
     setSimulate(false);
   };
 
-  const update = () => {
+  const update = async () => {
+    // dev 下模拟 SW 激活延迟，便于观察按钮 loading 态
+    if (import.meta.env.DEV) await new Promise((r) => setTimeout(r, 2000));
     void updateServiceWorker(true);
     // dev 下 vite-plugin-pwa 的 SW 是空实现，手动刷一次模拟真实刷新
     if (import.meta.env.DEV) window.location.reload();
@@ -55,6 +57,7 @@ export default function App() {
         onUpdate={update}
         onDismiss={dismiss}
         position={position}
+        version="v1.0.19"
       />
     </main>
   );

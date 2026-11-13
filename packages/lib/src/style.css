@@ -18,9 +18,12 @@
   --rpwa-btn-primary-bg: #111827;
   --rpwa-btn-primary-color: #fff;
   --rpwa-btn-primary-bg-hover: #374151;
+  /* 进度条默认跟随 accent，可单独覆盖 */
+  --rpwa-progress-bg: var(--rpwa-accent);
 
   position: fixed;
   z-index: 9999;
+  overflow: hidden;
   box-sizing: border-box;
   width: 240px;
   padding: 8px 12px;
@@ -55,10 +58,33 @@
     animation-name: react-pwa-promotion-in-top;
   }
 
+  & .react-pwa-promotion__progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--rpwa-progress-bg);
+    transition: width 0.25s ease-out;
+  }
+
   & .react-pwa-promotion__title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 2px;
+
+    & .react-pwa-promotion__version {
+      padding: 0 5px;
+      border-radius: 999px;
+      background: var(--rpwa-btn-ghost-bg-hover);
+      color: var(--rpwa-muted);
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 16px;
+      white-space: nowrap;
+    }
   }
 
   & .react-pwa-promotion__desc {
@@ -72,6 +98,9 @@
     justify-content: flex-end;
 
     & .react-pwa-promotion__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       padding: 3px 8px;
       border-radius: var(--rpwa-radius-sm);
       font: inherit;
@@ -79,6 +108,11 @@
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s,
         transform 0.15s;
+
+      &:disabled {
+        cursor: default;
+        opacity: 0.7;
+      }
 
       &:active {
         transform: translateY(1px);
@@ -89,12 +123,21 @@
         outline-offset: 2px;
       }
 
+      & .react-pwa-promotion__spin {
+        width: 10px;
+        height: 10px;
+        border: 1.5px solid currentColor;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: react-pwa-promotion-spin 0.6s linear infinite;
+      }
+
       &.react-pwa-promotion__btn--ghost {
         border: 1px solid var(--rpwa-border);
         background: var(--rpwa-btn-ghost-bg);
         color: var(--rpwa-btn-ghost-color);
 
-        &:hover {
+        &:not(:disabled):hover {
           background: var(--rpwa-btn-ghost-bg-hover);
           border-color: #d1d5db;
           color: var(--rpwa-color);
@@ -106,7 +149,7 @@
         background: var(--rpwa-btn-primary-bg);
         color: var(--rpwa-btn-primary-color);
 
-        &:hover {
+        &:not(:disabled):hover {
           background: var(--rpwa-btn-primary-bg-hover);
           border-color: var(--rpwa-btn-primary-bg-hover);
           box-shadow: 0 3px 10px rgba(17, 24, 39, 0.25);
@@ -117,6 +160,10 @@
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
+
+    & .react-pwa-promotion__progress {
+      transition: none;
+    }
 
     & .react-pwa-promotion__btn {
       transition: none;
@@ -132,4 +179,8 @@
 @keyframes react-pwa-promotion-in-top {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: none; }
+}
+
+@keyframes react-pwa-promotion-spin {
+  to { transform: rotate(360deg); }
 }

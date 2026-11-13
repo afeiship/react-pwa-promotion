@@ -13,7 +13,7 @@ export type PwaUpdateTexts = {
 export interface PwaUpdatePromptProps {
   /** 是否有新版本待更新，由宿主的 Service Worker 状态提供 */
   open: boolean;
-  /** 点击「立即更新」：组件立即隐藏自身，宿主负责让新 SW 接管并刷新页面 */
+  /** 点击「立即更新」：按钮进入 loading 并禁用，宿主负责让新 SW 接管并刷新页面 */
   onUpdate: () => void;
   /** 点击「稍后」 */
   onDismiss: () => void;
@@ -24,6 +24,8 @@ export interface PwaUpdatePromptProps {
   texts?: Partial<PwaUpdateTexts>;
   /** 提示框语言：决定默认文案与 aria lang；未传时跟随 <html> 的 lang */
   lang?: 'zh-CN' | 'en-US';
+  /** 新版本号，传入后显示在标题旁（如 "v1.2.0"，原样展示） */
+  version?: string;
 }
 
 const CLASS_NAME = 'react-pwa-promotion';
@@ -52,16 +54,18 @@ export default function PwaUpdatePrompt({
   position = 'top-right',
   className,
   texts,
-  lang
+  lang,
+  version
 }: PwaUpdatePromptProps) {
-  // Hide instantly on update click: the host's reload may lag behind SW activation.
-  const [updateClicked, setUpdateClicked] = useState(false);
+  // Keep the prompt visible after clicking update; the button shows a loading
+  // state while the host activates the new SW and reloads.
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    if (!open) setUpdateClicked(false);
+    if (!open) setUpdating(false);
   }, [open]);
 
-  if (!open || updateClicked) return null;
+  if (!open) return null;
 
   const resolvedLang =
     lang ?? (typeof navigator !== 'undefined' && navigator.language.startsWith('zh') ? 'zh-CN' : 'en-US');
@@ -79,7 +83,11 @@ export default function PwaUpdatePrompt({
       role="dialog"
       aria-live="polite"
       aria-label={t.title}>
-      <div className={`${CLASS_NAME}__title`}>{t.title}</div>
+      <PwaProgress active={updating} />
+      <div className={`${CLASS_NAME}__title`}>
+        {t.title}
+        {version && <span className={`${CLASS_NAME}__version`}>{version}</span>}
+      </div>
       <div className={`${CLASS_NAME}__desc`}>{t.description}</div>
       <div className={`${CLASS_NAME}__actions`}>
         <button
@@ -91,13 +99,45 @@ export default function PwaUpdatePrompt({
         <button
           type="button"
           className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--primary`}
+          disabled={updating}
+          aria-busy={updating}
           onClick={() => {
-            setUpdateClicked(true);
+            setUpdating(true);
             onUpdate();
           }}>
+          {updating && <span className={`${CLASS_NAME}__spin`} aria-hidden="true" />}
           {t.update}
         </button>
       </div>
     </div>
+  );
+}
+
+// Fake progress bar pinned to the top edge of the prompt. On activate it jumps
+// to 20%, then creeps asymptotically towards 90% and never reaches 100% — the
+// page reload makes the whole prompt vanish before it "finishes".
+function PwaProgress({ active }: { active: boolean }) {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      setProgress(0);
+      return;
+    }
+    setProgress(20);
+    const timer = setInterval(() => {
+      setProgress((p) => Math.min(90, p + Math.max(0.4, (90 - p) * 0.1)));
+    }, 250);
+    return () => clearInterval(timer);
+  }, [active]);
+
+  if (!active) return null;
+
+  return (
+    <div
+      className={`${CLASS_NAME}__progress`}
+      style={{ width: `${progress}%` }}
+      aria-hidden="true"
+    />
   );
 }
