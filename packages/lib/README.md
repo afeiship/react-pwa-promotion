@@ -80,7 +80,8 @@ export default function App() {
 | `onDismiss` | `() => void` | — | 点击「稍后」 |
 | `position` | `PwaUpdatePosition \| CSSProperties` | `'bottom-right'` | 四角，或传样式对象自定义坐标 |
 | `className` | `string` | — | 追加根类名 |
-| `texts` | `Partial<PwaUpdateTexts>` | 中文 | 覆盖标题 / 描述 / 两个按钮文案 |
+| `texts` | `Partial<PwaUpdateTexts>` | 中文 | 覆盖标题 / 描述 / 两个按钮文案（`dismiss` 传空字符串可隐藏「稍后」按钮） |
+| `theme` | `PwaUpdateTheme` | `'default'` | 内置主题预设：`weiyun`（微云风大卡：340px、16px 圆角、通栏主按钮、右上角关闭） |
 
 `PwaUpdatePosition` = `'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'`。
 

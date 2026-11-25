@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
-import PwaUpdatePrompt, { type PwaUpdatePosition } from '../../lib/src';
+import PwaUpdatePrompt, { type PwaUpdatePosition, type PwaUpdateTheme } from '../../lib/src';
 
 const positions: PwaUpdatePosition[] = [
   'bottom-right',
@@ -9,9 +9,12 @@ const positions: PwaUpdatePosition[] = [
   'top-left'
 ];
 
+const themes: PwaUpdateTheme[] = ['default', 'weiyun'];
+
 export default function App() {
   const [simulate, setSimulate] = useState(false);
   const [position, setPosition] = useState<PwaUpdatePosition>('top-right');
+  const [theme, setTheme] = useState<PwaUpdateTheme>('weiyun');
   // 只负责注册 SW；新版本由 PwaUpdatePrompt 的 pollInterval 自行轮询发现
   const { updateServiceWorker } = useRegisterSW();
 
@@ -45,6 +48,15 @@ export default function App() {
               </option>
             ))}
           </select>
+          <select
+            value={theme}
+            onChange={(e) => setTheme(e.target.value as PwaUpdateTheme)}>
+            {themes.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
       )}
 
@@ -54,7 +66,18 @@ export default function App() {
         onUpdate={update}
         onDismiss={dismiss}
         position={position}
+        theme={theme}
         version="v1.0.19"
+        texts={
+          theme === 'weiyun'
+            ? {
+                title: '新版本已就绪',
+                description: '本次更新带来体验优化与已知问题修复，欢迎升级到最新版本体验。',
+                update: '重启完成更新',
+                dismiss: ''
+              }
+            : undefined
+        }
       />
     </main>
   );

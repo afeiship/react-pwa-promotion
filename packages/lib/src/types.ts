@@ -4,10 +4,14 @@ export type PwaUpdatePosition = 'bottom-right' | 'bottom-left' | 'top-right' | '
 
 export type PwaUpdateLang = 'zh-CN' | 'en-US';
 
+/** 内置主题预设，见 style.css 中对应的 --${CLASS}--{theme} 变量覆盖块 */
+export type PwaUpdateTheme = 'default' | 'weiyun';
+
 export type PwaUpdateTexts = {
   title: string;
   description: string;
   update: string;
+  /** 传空字符串隐藏「稍后」按钮 */
   dismiss: string;
 };
 
@@ -24,6 +28,8 @@ export interface PwaUpdatePromptProps {
   className?: string;
   /** 覆盖默认文案 */
   texts?: Partial<PwaUpdateTexts>;
+  /** 内置主题预设，默认 'default'；配合 className 可再叠加自定义覆盖 */
+  theme?: PwaUpdateTheme;
   /** 提示框语言：决定默认文案与 aria lang；未传时跟随 <html> 的 lang */
   lang?: PwaUpdateLang;
   /** 新版本号，传入后显示在标题旁（如 "v1.2.0"，原样展示） */

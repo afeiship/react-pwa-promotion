@@ -171,6 +171,80 @@
   }
 }
 
+/* ---------- 主题预设 ---------- */
+
+/* 微云风：大圆角白卡 + 大标题/描述 + 通栏主按钮 + 右上角关闭 */
+.react-pwa-promotion--weiyun {
+  --rpwa-radius: 16px;
+  --rpwa-radius-sm: 10px;
+  --rpwa-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+  --rpwa-accent: #1f6cff;
+  --rpwa-btn-primary-bg: #1f6cff;
+  --rpwa-btn-primary-bg-hover: #4c8aff;
+  --rpwa-progress-bg: #1f6cff;
+
+  width: 340px;
+  padding: 20px;
+
+  & .react-pwa-promotion__title {
+    font-size: 17px;
+    margin-bottom: 8px;
+    padding-right: 24px;
+
+    & .react-pwa-promotion__version {
+      font-size: 13px;
+      padding: 0 2px;
+      background: none;
+      color: var(--rpwa-muted);
+    }
+  }
+
+  & .react-pwa-promotion__desc {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  & .react-pwa-promotion__actions {
+    gap: 0;
+    justify-content: stretch;
+
+    & .react-pwa-promotion__btn {
+      font-size: 14px;
+      padding: 9px 0;
+      flex: 1;
+      justify-content: center;
+      border-radius: var(--rpwa-radius-sm);
+    }
+
+    & .react-pwa-promotion__btn--primary:not(:disabled):hover {
+      box-shadow: 0 4px 14px rgba(31, 108, 255, 0.35);
+    }
+  }
+
+  & .react-pwa-promotion__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #9ca3af;
+    cursor: pointer;
+    border-radius: 50%;
+
+    &:hover {
+      color: var(--rpwa-color);
+      background: var(--rpwa-btn-ghost-bg-hover);
+    }
+  }
+}
+
 @keyframes react-pwa-promotion-in {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }

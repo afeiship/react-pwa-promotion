@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { PwaUpdateLang, PwaUpdatePromptProps } from '../types';
 import { CLASS_NAME } from '../constants';
+import { themeClassMap } from '../themes';
 import PwaProgress from './pwa-progress';
 import useSwUpdatePolling from '../hooks/use-sw-update-polling';
 import { joinClasses, mergeTexts, resolveLang } from '../utils';
@@ -28,6 +29,7 @@ export default function PwaUpdatePrompt({
   onDismiss,
   position = 'top-right',
   className,
+  theme = 'default',
   texts,
   lang,
   version,
@@ -53,8 +55,10 @@ export default function PwaUpdatePrompt({
   const resolvedLang: PwaUpdateLang = resolveLang(lang);
   const t = mergeTexts(resolvedLang, texts);
   const preset = typeof position === 'string';
+  const themePreset = themeClassMap[theme];
   const classes = joinClasses(
     CLASS_NAME,
+    themePreset.className,
     preset && `${CLASS_NAME}--${position}`,
     className
   );
@@ -68,21 +72,43 @@ export default function PwaUpdatePrompt({
       aria-live="polite"
       aria-label={t.title}>
       <PwaProgress active={updating} />
+      {themePreset.closeButton && (
+        <button
+          type="button"
+          className={`${CLASS_NAME}__close`}
+          aria-label={resolvedLang === 'zh-CN' ? '关闭' : 'Close'}
+          onClick={() => {
+            setFound(false);
+            onDismiss?.();
+          }}>
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path
+              d="M6 6l12 12M18 6L6 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
+        </button>
+      )}
       <div className={`${CLASS_NAME}__title`}>
         {t.title}
         {version && <span className={`${CLASS_NAME}__version`}>{version}</span>}
       </div>
       <div className={`${CLASS_NAME}__desc`}>{t.description}</div>
       <div className={`${CLASS_NAME}__actions`}>
-        <button
-          type="button"
-          className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--ghost`}
-          onClick={() => {
-            setFound(false);
-            onDismiss?.();
-          }}>
-          {t.dismiss}
-        </button>
+        {t.dismiss && (
+          <button
+            type="button"
+            className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--ghost`}
+            onClick={() => {
+              setFound(false);
+              onDismiss?.();
+            }}>
+            {t.dismiss}
+          </button>
+        )}
         <button
           type="button"
           className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--primary`}
