@@ -10,33 +10,23 @@ export type PwaUpdatePosition =
 
 export type PwaUpdateLang = 'zh-CN' | 'en-US';
 
-/** 内置主题预设，见 style.css 中对应的 --${CLASS}--{theme} 变量覆盖块 */
+/** 内置主题预设，各自定义在 src/themes/<name>.ts，样式在 src/styles/<name>.scss */
 export type PwaUpdateTheme = 'default' | 'weiyun' | 'toast';
-
-export type PwaUpdateTexts = {
-  title: string;
-  description: string;
-  update: string;
-  /** 传空字符串隐藏「稍后」按钮 */
-  dismiss: string;
-};
 
 export interface PwaUpdatePromptProps {
   /** 是否有新版本待更新，由宿主的 Service Worker 状态提供；开启 pollInterval 后可不传 */
   open?: boolean;
-  /** 点击「立即更新」：按钮进入 loading 并禁用，宿主负责让新 SW 接管并刷新页面；
+  /** 点击「重启完成更新」：按钮进入 loading 并禁用，宿主负责让新 SW 接管并刷新页面；
    *  不传且开启 pollInterval 时，内置默认行为：SKIP_WAITING + 刷新页面 */
   onUpdate?: () => void;
-  /** 点击「稍后」；不传时仅关闭提示框 */
+  /** 点击关闭；不传时仅关闭提示框 */
   onDismiss?: () => void;
-  /** 四个角，或传样式对象自定义坐标（如 { left: 40, top: 40 }） */
+  /** 六个预设位置，或传样式对象自定义坐标（如 { left: 40, top: 40 }） */
   position?: PwaUpdatePosition | CSSProperties;
   className?: string;
-  /** 覆盖默认文案 */
-  texts?: Partial<PwaUpdateTexts>;
   /** 内置主题预设，默认 'default'；配合 className 可再叠加自定义覆盖 */
   theme?: PwaUpdateTheme;
-  /** 提示框语言：决定默认文案与 aria lang；未传时跟随 <html> 的 lang */
+  /** 提示框语言：决定默认文案与 aria lang；未传时跟随 navigator.language */
   lang?: PwaUpdateLang;
   /** 新版本号，传入后显示在标题旁（如 "v1.2.0"，原样展示） */
   version?: string;

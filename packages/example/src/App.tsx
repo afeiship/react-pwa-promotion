@@ -3,7 +3,6 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 import PwaUpdatePrompt, {
   type PwaUpdateLang,
   type PwaUpdatePosition,
-  type PwaUpdateTexts,
   type PwaUpdateTheme
 } from '../../lib/src';
 
@@ -19,22 +18,6 @@ const positions: PwaUpdatePosition[] = [
 const themes: PwaUpdateTheme[] = ['default', 'weiyun', 'toast'];
 
 const langs: PwaUpdateLang[] = ['zh-CN', 'en-US'];
-
-/** 微云主题演示文案（截图中只有一个主按钮，故 dismiss 留空隐藏「稍后」） */
-const weiyunTexts: Record<PwaUpdateLang, PwaUpdateTexts> = {
-  'zh-CN': {
-    title: '新版本已就绪',
-    description: '本次更新带来体验优化与已知问题修复，欢迎升级到最新版本体验。',
-    update: '重启完成更新',
-    dismiss: ''
-  },
-  'en-US': {
-    title: 'New version ready',
-    description: 'This update brings UX improvements and bug fixes. Enjoy the latest version.',
-    update: 'Restart to update',
-    dismiss: ''
-  }
-};
 
 export default function App() {
   const [simulate, setSimulate] = useState(false);
@@ -104,7 +87,6 @@ export default function App() {
         theme={theme}
         lang={lang}
         version={theme === 'toast' ? undefined : 'v1.0.19'}
-        texts={theme === 'weiyun' ? weiyunTexts[lang] : undefined}
       />
     </main>
   );

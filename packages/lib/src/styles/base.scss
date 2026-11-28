@@ -11,9 +11,7 @@ $p: react-pwa-promotion;
   --rpwa-radius-sm: 4px;
   --rpwa-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   --rpwa-accent: #6366f1;
-  --rpwa-btn-ghost-bg: #fff;
-  --rpwa-btn-ghost-color: #374151;
-  --rpwa-btn-ghost-bg-hover: #f3f4f6;
+  --rpwa-hover-bg: #f3f4f6;
   --rpwa-btn-primary-bg: #111827;
   --rpwa-btn-primary-color: #fff;
   --rpwa-btn-primary-bg-hover: #374151;
@@ -92,7 +90,7 @@ $p: react-pwa-promotion;
   &__version {
     padding: 0 5px;
     border-radius: 999px;
-    background: var(--rpwa-btn-ghost-bg-hover);
+    background: var(--rpwa-hover-bg);
     color: var(--rpwa-muted);
     font-size: 10px;
     font-weight: 500;
@@ -107,7 +105,6 @@ $p: react-pwa-promotion;
 
   &__actions {
     display: flex;
-    gap: 4px;
     justify-content: flex-end;
   }
 
@@ -135,18 +132,6 @@ $p: react-pwa-promotion;
     &:focus-visible {
       outline: 2px solid var(--rpwa-accent);
       outline-offset: 2px;
-    }
-
-    &--ghost {
-      border: 1px solid var(--rpwa-border);
-      background: var(--rpwa-btn-ghost-bg);
-      color: var(--rpwa-btn-ghost-color);
-
-      &:not(:disabled):hover {
-        background: var(--rpwa-btn-ghost-bg-hover);
-        border-color: #d1d5db;
-        color: var(--rpwa-color);
-      }
     }
 
     &--primary {

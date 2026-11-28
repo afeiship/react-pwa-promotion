@@ -1,6 +1,5 @@
-import type { PwaUpdateLang, PwaUpdateTexts, PwaUpdateTheme } from './types';
-import { defaultTextsByLang } from './constants';
-import { themes } from './themes';
+import type { PwaUpdateLang } from './types';
+import { copyByLang } from './constants';
 
 export function resolveLang(lang?: PwaUpdateLang): PwaUpdateLang {
   if (lang) return lang;
@@ -8,14 +7,8 @@ export function resolveLang(lang?: PwaUpdateLang): PwaUpdateLang {
   return 'en-US';
 }
 
-/** 文案优先级：通用默认 < 主题专属默认 < 用户 texts */
-export function mergeTexts(
-  lang: PwaUpdateLang,
-  texts?: Partial<PwaUpdateTexts>,
-  theme?: PwaUpdateTheme
-) {
-  const themeTexts = theme ? themes[theme]?.texts?.[lang] : undefined;
-  return { ...defaultTextsByLang[lang], ...themeTexts, ...texts };
+export function getCopy(lang: PwaUpdateLang) {
+  return copyByLang[lang];
 }
 
 export function joinClasses(...parts: Array<string | false | undefined>) {

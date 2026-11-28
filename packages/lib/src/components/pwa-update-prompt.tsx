@@ -7,7 +7,7 @@ import PwaProgress from './pwa-progress';
 import CardLayout from './layout-card';
 import BarLayout from './layout-bar';
 import useSwUpdatePolling from '../hooks/use-sw-update-polling';
-import { joinClasses, mergeTexts, resolveLang } from '../utils';
+import { getCopy, joinClasses, resolveLang } from '../utils';
 
 // 内置默认更新行为：通知新 SW SKIP_WAITING，接管成功（controllerchange）后刷新页面。
 // 要求 SW 响应该消息（vite-plugin-pwa generateSW 默认支持）。
@@ -23,8 +23,8 @@ function defaultUpdate() {
   });
 }
 
-// 样式独立在 src/style.css（通过 @import 组合 src/styles 与 src/themes/*.css），
-// 构建时用 Lightning CSS bundle 编译到 dist/style.css；组件本身不往 DOM 注入 <style>。
+// 样式独立在 src/styles/style.scss（构建时用 sass 编译到 dist/style.css），
+// 使用方需引入一次 CSS，组件本身不往 DOM 注入 <style>。
 export default function PwaUpdatePrompt({
   open = false,
   onUpdate,
@@ -32,7 +32,6 @@ export default function PwaUpdatePrompt({
   position = 'top-right',
   className,
   theme = 'default',
-  texts,
   lang,
   version,
   pollInterval = 0
@@ -55,7 +54,7 @@ export default function PwaUpdatePrompt({
   if (!show) return null;
 
   const resolvedLang: PwaUpdateLang = resolveLang(lang);
-  const t = mergeTexts(resolvedLang, texts, theme);
+  const copy = getCopy(resolvedLang);
   const preset = typeof position === 'string';
   const themeDef = themes[theme];
   const classes = joinClasses(
@@ -70,7 +69,7 @@ export default function PwaUpdatePrompt({
     lang: resolvedLang,
     role: 'dialog' as const,
     'aria-live': 'polite' as const,
-    'aria-label': t.title
+    'aria-label': copy.title
   };
 
   const dismiss = () => {
@@ -88,10 +87,10 @@ export default function PwaUpdatePrompt({
     <div {...common}>
       <PwaProgress active={updating} />
       {themeDef.layout === 'bar' ? (
-        <BarLayout texts={t} updating={updating} onDismiss={dismiss} onUpdate={update} />
+        <BarLayout copy={copy} updating={updating} onDismiss={dismiss} onUpdate={update} />
       ) : (
         <CardLayout
-          texts={t}
+          copy={copy}
           version={version}
           closeButton={themeDef.closeButton}
           closeLabel={resolvedLang === 'zh-CN' ? '关闭' : 'Close'}
