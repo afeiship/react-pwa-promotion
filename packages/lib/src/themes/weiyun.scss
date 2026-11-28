@@ -1,5 +1,7 @@
 /* 微云风：白卡 + 大标题/描述 + 通栏主按钮 + 右上角关闭 */
-.react-pwa-promotion--weiyun {
+$p: react-pwa-promotion;
+
+.#{$p}--weiyun {
   --rpwa-radius: 10px;
   --rpwa-radius-sm: 5px;
   --rpwa-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
@@ -11,42 +13,42 @@
   width: 280px;
   padding: 14px;
 
-  & .react-pwa-promotion__title {
+  .#{$p}__title {
     font-size: 14px;
     margin-bottom: 4px;
     padding-right: 20px;
-
-    & .react-pwa-promotion__version {
-      font-size: 11px;
-      padding: 0 2px;
-      background: none;
-      color: var(--rpwa-muted);
-    }
   }
 
-  & .react-pwa-promotion__desc {
+  .#{$p}__version {
+    font-size: 11px;
+    padding: 0 2px;
+    background: none;
+    color: var(--rpwa-muted);
+  }
+
+  .#{$p}__desc {
     line-height: 1.5;
     margin-bottom: 10px;
   }
 
-  & .react-pwa-promotion__actions {
+  .#{$p}__actions {
     gap: 0;
     justify-content: stretch;
+  }
 
-    & .react-pwa-promotion__btn {
-      font-size: 12px;
-      padding: 6px 0;
-      flex: 1;
-      justify-content: center;
-      border-radius: var(--rpwa-radius-sm);
-    }
+  .#{$p}__btn {
+    font-size: 12px;
+    padding: 6px 0;
+    flex: 1;
+    justify-content: center;
+    border-radius: var(--rpwa-radius-sm);
 
-    & .react-pwa-promotion__btn--primary:not(:disabled):hover {
+    &--primary:not(:disabled):hover {
       box-shadow: 0 4px 14px rgba(31, 108, 255, 0.35);
     }
   }
 
-  & .react-pwa-promotion__close {
+  .#{$p}__close {
     position: absolute;
     top: 10px;
     right: 10px;

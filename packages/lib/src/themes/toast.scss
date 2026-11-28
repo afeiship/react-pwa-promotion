@@ -1,5 +1,7 @@
 /* Toast：深色渐变胶囊条（绿色勾 + 单行文案 + 蓝色胶囊按钮），窄屏堆叠成小卡片 */
-.react-pwa-promotion--toast {
+$p: react-pwa-promotion;
+
+.#{$p}--toast {
   --rpwa-bg: linear-gradient(to right, #1e293b, #334155);
   --rpwa-color: #fff;
   --rpwa-border: transparent;
@@ -17,7 +19,7 @@
   padding: 10px 14px 10px 22px;
   font-size: 14px;
 
-  & .react-pwa-promotion__icon {
+  .#{$p}__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -29,12 +31,12 @@
     color: #fff;
   }
 
-  & .react-pwa-promotion__label {
+  .#{$p}__label {
     font-weight: 500;
     white-space: nowrap;
   }
 
-  & .react-pwa-promotion__close {
+  .#{$p}__close {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +56,7 @@
     }
   }
 
-  & .react-pwa-promotion__btn {
+  .#{$p}__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -86,7 +88,7 @@
     }
 
     /* loading 时图标原地旋转（RefreshIcon 加 __spin 类） */
-    & .react-pwa-promotion__spin {
+    .#{$p}__spin {
       animation: react-pwa-promotion-spin 0.8s linear infinite;
     }
   }
@@ -98,11 +100,11 @@
     padding: 16px;
     border-radius: 16px;
 
-    & .react-pwa-promotion__label {
+    .#{$p}__label {
       text-align: left;
     }
 
-    & .react-pwa-promotion__btn {
+    .#{$p}__btn {
       padding: 10px 16px;
     }
   }

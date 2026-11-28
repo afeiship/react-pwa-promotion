@@ -1,6 +1,0 @@
-/* 样式入口：基础结构（含默认主题）+ 各主题预设。
-   构建时由 build/css.ts 用 Lightning CSS 的 bundle 解析 @import 并内联，
-   再按 targets 展开 CSS Nesting、压缩输出到 dist/style.css。 */
-@import './styles/base.css';
-@import './themes/weiyun.css';
-@import './themes/toast.css';

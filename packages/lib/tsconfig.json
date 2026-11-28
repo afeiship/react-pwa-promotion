@@ -19,6 +19,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src", "build", "global.d.ts"],
+  "include": ["src", "global.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
