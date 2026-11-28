@@ -1,5 +1,0 @@
-/* 样式入口：Sass 编译时内联所有 @import，输出扁平 CSS 到 dist/style.css。
-   各主题的样式与定义在同目录成对存放（themes/<name>.ts + themes/<name>.scss）。 */
-@use 'styles/base';
-@use 'themes/weiyun';
-@use 'themes/toast';

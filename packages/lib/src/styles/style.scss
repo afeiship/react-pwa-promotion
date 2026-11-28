@@ -1,0 +1,5 @@
+/* 样式入口：Sass 编译时内联所有 @use，输出扁平 CSS 到 dist/style.css。
+   主题样式集中在 styles/ 下，与 src/themes/<name>.ts 的定义对应。 */
+@use 'base';
+@use 'weiyun';
+@use 'toast';

@@ -12,7 +12,7 @@
     "llms.txt"
   ],
   "scripts": {
-    "build": "tsup && sass --no-source-map --style=compressed src/style.scss dist/style.css",
+    "build": "tsup && sass --no-source-map --style=compressed src/styles/style.scss dist/style.css",
     "release": "release-it --ci --npm.skipChecks"
   },
   "devDependencies": {
