@@ -1,11 +1,17 @@
 import type { CSSProperties } from 'react';
 
-export type PwaUpdatePosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+export type PwaUpdatePosition =
+  | 'bottom-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'top-right'
+  | 'top-left'
+  | 'top-center';
 
 export type PwaUpdateLang = 'zh-CN' | 'en-US';
 
 /** 内置主题预设，见 style.css 中对应的 --${CLASS}--{theme} 变量覆盖块 */
-export type PwaUpdateTheme = 'default' | 'weiyun';
+export type PwaUpdateTheme = 'default' | 'weiyun' | 'toast';
 
 export type PwaUpdateTexts = {
   title: string;

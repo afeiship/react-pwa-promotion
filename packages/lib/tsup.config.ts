@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-import lightningCssPlugin from '@jswork/tsup-plugin-lightningcss';
+import cssPlugin from './build/css';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -16,13 +16,8 @@ export default defineConfig({
   bundle: true,
   external: ['react', 'react-dom'],
 
-  // CSS 由 tsup 插件在同一次构建里产出 dist/style.css（无需 postbuild）
-  esbuildPlugins: [
-    lightningCssPlugin({
-      entry: 'src/style.css',
-      outFile: 'style.css'
-    })
-  ],
+  // CSS 由本地插件在同一次构建里产出 dist/style.css（会内联 src/styles/* 的主题文件）
+  esbuildPlugins: [cssPlugin({ entry: 'src/style.css', outFile: 'style.css' })],
 
   outExtension({ format }) {
     return {

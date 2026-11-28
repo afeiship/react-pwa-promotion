@@ -1,0 +1,109 @@
+/* Toast：深色渐变胶囊条（绿色勾 + 单行文案 + 蓝色胶囊按钮），窄屏堆叠成小卡片 */
+.react-pwa-promotion--toast {
+  --rpwa-bg: linear-gradient(to right, #1e293b, #334155);
+  --rpwa-color: #fff;
+  --rpwa-border: transparent;
+  --rpwa-radius: 999px;
+  --rpwa-radius-sm: 999px;
+  --rpwa-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  --rpwa-accent: #3b82f6;
+  --rpwa-progress-bg: rgba(255, 255, 255, 0.35);
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: auto;
+  max-width: calc(100vw - 32px);
+  padding: 10px 14px 10px 22px;
+  font-size: 14px;
+
+  & .react-pwa-promotion__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #22c55e;
+    color: #fff;
+  }
+
+  & .react-pwa-promotion__label {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  & .react-pwa-promotion__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  & .react-pwa-promotion__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex: none;
+    padding: 6px 16px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s;
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #93c5fd;
+      outline-offset: 2px;
+    }
+
+    /* loading 时图标原地旋转（RefreshIcon 加 __spin 类） */
+    & .react-pwa-promotion__spin {
+      animation: react-pwa-promotion-spin 0.8s linear infinite;
+    }
+  }
+
+  @media (max-width: 639px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 16px;
+
+    & .react-pwa-promotion__label {
+      text-align: left;
+    }
+
+    & .react-pwa-promotion__btn {
+      padding: 10px 16px;
+    }
+  }
+}

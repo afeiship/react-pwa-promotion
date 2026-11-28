@@ -2,8 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { PwaUpdateLang, PwaUpdatePromptProps } from '../types';
 import { CLASS_NAME } from '../constants';
-import { themeClassMap } from '../themes';
+import { themes } from '../themes';
 import PwaProgress from './pwa-progress';
+import CardLayout from './layout-card';
+import BarLayout from './layout-bar';
 import useSwUpdatePolling from '../hooks/use-sw-update-polling';
 import { joinClasses, mergeTexts, resolveLang } from '../utils';
 
@@ -21,8 +23,8 @@ function defaultUpdate() {
   });
 }
 
-// 样式独立在 src/style.css（构建时用 Lightning CSS 编译到 dist/style.css），
-// 使用方需引入一次 CSS，组件本身不往 DOM 注入 <style>。
+// 样式独立在 src/style.css（通过 @import 组合 src/styles 与 src/themes/*.css），
+// 构建时用 Lightning CSS bundle 编译到 dist/style.css；组件本身不往 DOM 注入 <style>。
 export default function PwaUpdatePrompt({
   open = false,
   onUpdate,
@@ -53,76 +55,51 @@ export default function PwaUpdatePrompt({
   if (!show) return null;
 
   const resolvedLang: PwaUpdateLang = resolveLang(lang);
-  const t = mergeTexts(resolvedLang, texts);
+  const t = mergeTexts(resolvedLang, texts, theme);
   const preset = typeof position === 'string';
-  const themePreset = themeClassMap[theme];
+  const themeDef = themes[theme];
   const classes = joinClasses(
     CLASS_NAME,
-    themePreset.className,
+    themeDef.className,
     preset && `${CLASS_NAME}--${position}`,
     className
   );
+  const common = {
+    className: classes,
+    style: typeof position === 'string' ? undefined : (position as CSSProperties),
+    lang: resolvedLang,
+    role: 'dialog' as const,
+    'aria-live': 'polite' as const,
+    'aria-label': t.title
+  };
+
+  const dismiss = () => {
+    setFound(false);
+    onDismiss?.();
+  };
+
+  const update = () => {
+    setUpdating(true);
+    if (onUpdate) onUpdate();
+    else defaultUpdate();
+  };
 
   return (
-    <div
-      className={classes}
-      style={typeof position === 'string' ? undefined : (position as CSSProperties)}
-      lang={resolvedLang}
-      role="dialog"
-      aria-live="polite"
-      aria-label={t.title}>
+    <div {...common}>
       <PwaProgress active={updating} />
-      {themePreset.closeButton && (
-        <button
-          type="button"
-          className={`${CLASS_NAME}__close`}
-          aria-label={resolvedLang === 'zh-CN' ? '关闭' : 'Close'}
-          onClick={() => {
-            setFound(false);
-            onDismiss?.();
-          }}>
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-            <path
-              d="M6 6l12 12M18 6L6 18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              fill="none"
-            />
-          </svg>
-        </button>
+      {themeDef.layout === 'bar' ? (
+        <BarLayout texts={t} updating={updating} onDismiss={dismiss} onUpdate={update} />
+      ) : (
+        <CardLayout
+          texts={t}
+          version={version}
+          closeButton={themeDef.closeButton}
+          closeLabel={resolvedLang === 'zh-CN' ? '关闭' : 'Close'}
+          updating={updating}
+          onDismiss={dismiss}
+          onUpdate={update}
+        />
       )}
-      <div className={`${CLASS_NAME}__title`}>
-        {t.title}
-        {version && <span className={`${CLASS_NAME}__version`}>{version}</span>}
-      </div>
-      <div className={`${CLASS_NAME}__desc`}>{t.description}</div>
-      <div className={`${CLASS_NAME}__actions`}>
-        {t.dismiss && (
-          <button
-            type="button"
-            className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--ghost`}
-            onClick={() => {
-              setFound(false);
-              onDismiss?.();
-            }}>
-            {t.dismiss}
-          </button>
-        )}
-        <button
-          type="button"
-          className={`${CLASS_NAME}__btn ${CLASS_NAME}__btn--primary`}
-          disabled={updating}
-          aria-busy={updating}
-          onClick={() => {
-            setUpdating(true);
-            if (onUpdate) onUpdate();
-            else defaultUpdate();
-          }}>
-          {updating && <span className={`${CLASS_NAME}__spin`} aria-hidden="true" />}
-          {t.update}
-        </button>
-      </div>
     </div>
   );
 }

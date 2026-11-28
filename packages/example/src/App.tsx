@@ -1,20 +1,46 @@
 import { useState } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
-import PwaUpdatePrompt, { type PwaUpdatePosition, type PwaUpdateTheme } from '../../lib/src';
+import PwaUpdatePrompt, {
+  type PwaUpdateLang,
+  type PwaUpdatePosition,
+  type PwaUpdateTexts,
+  type PwaUpdateTheme
+} from '../../lib/src';
 
 const positions: PwaUpdatePosition[] = [
-  'bottom-right',
-  'bottom-left',
+  'top-center',
+  'bottom-center',
   'top-right',
-  'top-left'
+  'top-left',
+  'bottom-right',
+  'bottom-left'
 ];
 
-const themes: PwaUpdateTheme[] = ['default', 'weiyun'];
+const themes: PwaUpdateTheme[] = ['default', 'weiyun', 'toast'];
+
+const langs: PwaUpdateLang[] = ['zh-CN', 'en-US'];
+
+/** 微云主题演示文案（截图中只有一个主按钮，故 dismiss 留空隐藏「稍后」） */
+const weiyunTexts: Record<PwaUpdateLang, PwaUpdateTexts> = {
+  'zh-CN': {
+    title: '新版本已就绪',
+    description: '本次更新带来体验优化与已知问题修复，欢迎升级到最新版本体验。',
+    update: '重启完成更新',
+    dismiss: ''
+  },
+  'en-US': {
+    title: 'New version ready',
+    description: 'This update brings UX improvements and bug fixes. Enjoy the latest version.',
+    update: 'Restart to update',
+    dismiss: ''
+  }
+};
 
 export default function App() {
   const [simulate, setSimulate] = useState(false);
-  const [position, setPosition] = useState<PwaUpdatePosition>('top-right');
-  const [theme, setTheme] = useState<PwaUpdateTheme>('weiyun');
+  const [position, setPosition] = useState<PwaUpdatePosition>('bottom-center');
+  const [theme, setTheme] = useState<PwaUpdateTheme>('toast');
+  const [lang, setLang] = useState<PwaUpdateLang>('zh-CN');
   // 只负责注册 SW；新版本由 PwaUpdatePrompt 的 pollInterval 自行轮询发现
   const { updateServiceWorker } = useRegisterSW();
 
@@ -40,18 +66,27 @@ export default function App() {
             模拟新版本提示
           </button>
           <select
-            value={position}
-            onChange={(e) => setPosition(e.target.value as PwaUpdatePosition)}>
-            {positions.map((item) => (
+            value={theme}
+            onChange={(e) => setTheme(e.target.value as PwaUpdateTheme)}>
+            {themes.map((item) => (
               <option key={item} value={item}>
                 {item}
               </option>
             ))}
           </select>
           <select
-            value={theme}
-            onChange={(e) => setTheme(e.target.value as PwaUpdateTheme)}>
-            {themes.map((item) => (
+            value={lang}
+            onChange={(e) => setLang(e.target.value as PwaUpdateLang)}>
+            {langs.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          <select
+            value={position}
+            onChange={(e) => setPosition(e.target.value as PwaUpdatePosition)}>
+            {positions.map((item) => (
               <option key={item} value={item}>
                 {item}
               </option>
@@ -67,17 +102,9 @@ export default function App() {
         onDismiss={dismiss}
         position={position}
         theme={theme}
-        version="v1.0.19"
-        texts={
-          theme === 'weiyun'
-            ? {
-                title: '新版本已就绪',
-                description: '本次更新带来体验优化与已知问题修复，欢迎升级到最新版本体验。',
-                update: '重启完成更新',
-                dismiss: ''
-              }
-            : undefined
-        }
+        lang={lang}
+        version={theme === 'toast' ? undefined : 'v1.0.19'}
+        texts={theme === 'weiyun' ? weiyunTexts[lang] : undefined}
       />
     </main>
   );

@@ -12,7 +12,7 @@
 - `position?: PwaUpdatePosition | CSSProperties` — 四角预设（`'top-right'`（默认）| `'bottom-right'` | `'bottom-left'` | `'top-left'`）或传样式对象自定义坐标
 - `className?: string` — 追加根类名
 - `texts?: Partial<PwaUpdateTexts>` — 覆盖标题 / 描述 / 两个按钮文案（`dismiss` 传空字符串可隐藏「稍后」按钮）
-- `theme?: PwaUpdateTheme` — 内置主题预设，默认 `'default'`；可选 `'weiyun'`（微云风大卡：340px、16px 圆角、通栏主按钮、右上角关闭）
+- `theme?: PwaUpdateTheme` — 内置主题，默认 `'default'`；可选 `'weiyun'`（微云风卡片：280px、标题+描述+通栏主按钮、右上角关闭）/ `'toast'`（深色渐变胶囊条：勾 + 单行文案 + 胶囊按钮，窄屏堆叠成卡片，自带「新版本可用 / 刷新」文案）
 - `lang?: PwaUpdateLang` — `'zh-CN' | 'en-US'`，决定默认文案与 aria lang
 - `version?: string` — 新版本号，传入后以 badge 显示在标题旁（原样展示）；点击「立即更新」后按钮进入 loading 并禁用，顶部出现假进度条
 
@@ -22,18 +22,24 @@
 
 ## Source
 
-- [构建入口 index.tsx](src/index.tsx): 自包含单文件实现，tsup 的打包入口（`src/index.ts` 是等价的模块化重组出入口）
-- [组件实现](src/pwa-update-prompt.tsx): 模块化版本的 PwaUpdatePrompt 组件
-- [假进度条](src/pwa-progress.tsx): 内部组件 PwaProgress，更新时顶部进度条跳到 20% 后渐近 90%、永不到 100%，页面刷新时随弹框消失
+- [组件实现](src/components/pwa-update-prompt.tsx): PwaUpdatePrompt，负责 SW 轮询、文案解析、拼装根类名并选择布局
+- [卡片布局](src/components/layout-card.tsx): 标题（+版本号）/ 描述 / 底部按钮组，`weiyun` 与 `default` 共用
+- [横条布局](src/components/layout-bar.tsx): toast 的勾图标 + 单行文案 + 胶囊按钮；loading 时刷新图标原地旋转
+- [图标](src/components/icons.tsx): 内联 SVG（关闭 / 勾 / 刷新）
+- [假进度条](src/components/pwa-progress.tsx): PwaProgress，更新时顶部进度条跳到 20% 后渐近 90%、永不到 100%
+- [主题注册表](src/themes/index.ts): `themes` 映射；每个主题一个目录内文件：`themes/<name>.ts` 定义（类名 / 布局 / 专属文案）+ `themes/<name>.css` 样式
+- [主题类型](src/themes/types.ts): ThemeDefinition / ThemeLayout（`'card' | 'bar'`）
 - [类型定义](src/types.ts): PwaUpdatePromptProps 及所有导出类型
-- [常量](src/constants.ts): 根类名 `react-pwa-promotion` 与中英文默认文案
-- [工具函数](src/utils.ts): resolveLang / mergeTexts / joinClasses
-- [样式](src/style.css): 原生 CSS Nesting 编写，含全部 `--rpwa-*` 主题变量；构建时由 Lightning CSS 编译为扁平选择器输出到 `dist/style.css`
+- [常量](src/constants.ts): 根类名 `react-pwa-promotion` 与中英文通用默认文案
+- [工具函数](src/utils.ts): resolveLang / mergeTexts（通用默认 < 主题文案 < 用户 texts）/ joinClasses
+- [样式入口](src/style.css): 仅 `@import`，组合 `src/styles/base.css`（基础结构 + 默认主题）与各 `src/themes/*.css`
+- [基础样式](src/styles/base.css): 根布局、六种位置变体、进度条、卡片结构与默认主题变量、入场动画
 
 ## Configuration
 
 - [package.json](package.json): 包元信息，双格式产物入口（cjs / esm / d.ts）
-- [tsup 构建配置](tsup.config.ts): cjs + esm + d.ts 产物，`@jswork/tsup-plugin-lightningcss` 在同一次构建中产出 `dist/style.css`
+- [tsup 构建配置](tsup.config.ts): cjs + esm + d.ts 产物，`build/css.ts` 在同一次构建中产出 `dist/style.css`
+- [CSS 构建插件](build/css.ts): 用 Lightning CSS 的 `bundle` 内联 `@import`、展开嵌套并压缩到 `dist/style.css`
 
 ## Optional
 

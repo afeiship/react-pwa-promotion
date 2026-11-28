@@ -78,12 +78,23 @@ export default function App() {
 | `open` | `boolean` | — | 是否有新版本待更新，由宿主 SW 状态提供 |
 | `onUpdate` | `() => void` | — | 点击「立即更新」，宿主负责让新 SW 接管并刷新 |
 | `onDismiss` | `() => void` | — | 点击「稍后」 |
-| `position` | `PwaUpdatePosition \| CSSProperties` | `'bottom-right'` | 四角，或传样式对象自定义坐标 |
+| `position` | `PwaUpdatePosition \| CSSProperties` | `'top-right'` | 六个预设位置（四角 + bottom/top-center），或传样式对象自定义坐标 |
 | `className` | `string` | — | 追加根类名 |
 | `texts` | `Partial<PwaUpdateTexts>` | 中文 | 覆盖标题 / 描述 / 两个按钮文案（`dismiss` 传空字符串可隐藏「稍后」按钮） |
-| `theme` | `PwaUpdateTheme` | `'default'` | 内置主题预设：`weiyun`（微云风大卡：340px、16px 圆角、通栏主按钮、右上角关闭） |
+| `theme` | `PwaUpdateTheme` | `'default'` | 内置主题：`weiyun`（微云风卡片）、`toast`（居中胶囊条） |
 
-`PwaUpdatePosition` = `'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'`。
+`PwaUpdatePosition` = `'bottom-right' | 'bottom-left' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center'`。
+
+## 主题
+
+| 主题 | 布局 | 样式文件 |
+| --- | --- | --- |
+| `default` | 240px 紧凑卡片，底部右对齐小按钮 | `src/styles/base.css` |
+| `weiyun` | 280px 卡片，标题 + 描述 + 通栏主按钮，右上角关闭 | `src/themes/weiyun.css` |
+| `toast` | 深色渐变胶囊条：绿色勾 + 单行文案 + 蓝色胶囊按钮和关闭；≤639px 堆叠成小卡片。专属文案「新版本可用 / 刷新」 | `src/themes/toast.css` |
+
+新增主题：在 `src/themes/` 下建 `<name>.ts`（定义类名、布局与专属文案）+ `<name>.css`（样式），
+在 `src/themes/index.ts` 注册，并在 `src/style.css` 里加一行 `@import`。
 
 ## 特性
 
